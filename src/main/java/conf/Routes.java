@@ -20,7 +20,6 @@ package conf;
 import controllers.LoginController;
 import controllers.RegisterController;
 import ninja.AssetsController;
-import ninja.Results;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
 import controllers.ApplicationController;
@@ -43,10 +42,11 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         router.POST().route("/register").with(RegisterController.class, "postRegister");
         router.POST().route("/login").with(LoginController.class, "postLogin");
-        router.POST().route("/logout").with(LoginController.class, "logout");
         router.POST().route("/generate_hands").with(ApplicationController.class, "generateHands");
 
+        router.GET().route("/logout").with(LoginController.class, "logout");
         router.GET().route("/hand").with(ApplicationController.class, "index");
+        router.GET().route("/history").with(ApplicationController.class, "history");
         router.GET().route("/register").with(RegisterController.class, "index");
         router.GET().route("/").with(LoginController.class, "index");
 

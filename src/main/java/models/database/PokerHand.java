@@ -12,19 +12,20 @@ public class PokerHand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long pokerHandId;
     private String hand;
     private String playerName;
     @ManyToOne
+    @JoinColumn(name = "gameId")
     private Game game;
 
     public PokerHand() {}
 
-    public long getId() {
-        return id;
+    public long getPokerHandId() {
+        return pokerHandId;
     }
-    public void setId(long id) {
-        this.id = id;
+    public void setPokerHandId(long pokerHandId) {
+        this.pokerHandId = pokerHandId;
     }
     public String getHand() {
         return hand;

@@ -18,18 +18,17 @@ package controllers;
 
 import com.google.inject.Inject;
 import filters.SecureFilter;
+import models.database.Game;
+import models.views.GameView;
 import models.views.HandView;
 import ninja.*;
 
 import com.google.inject.Singleton;
-import models.cards.Card;
 import models.cards.Hand;
-import models.imageFinder.CardImageFinder;
+import repositories.IDatabaseAdapter;
 import services.IPokerService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @Singleton
@@ -42,48 +41,46 @@ public class ApplicationController {
     @Inject
     private Router router;
 
-    public Result index(Context context) {
-        Result result = Results.html();
-        return result;
+    @Inject
+    private IDatabaseAdapter database;
+
+    public Result index() {
+        return Results.html();
     }
 
     public Result generateHands(Context context) {
         Result result = Results.html().template("views/ApplicationController/index.ftl.html");
 
-        int numHandsToGenerate = Integer.parseInt(context.getParameter("numHands"));
-        List<Hand> hands = pokerService.dealHands(numHandsToGenerate);
-        List<HandView> handViewList = new ArrayList<>();
-        String userName;
-        HandView handView;
+        String userName = context.getSession().get("username");
+        int numOfPlayers = Integer.parseInt(context.getParameter("numHands"));
+        List<Hand> hands = pokerService.dealHands(numOfPlayers);
 
-        for (int i = 0; i < hands.size(); i++) {
-            userName = i == 0 ? context.getSession().get("username") : "Computer "+i;
-            handView = new HandView(userName, pokerService.evaluateHand(hands.get(i)), hands.get(i));
-            handViewList.add(handView);
-        }
+        List<String> playerNames = pokerService.generatePlayerNames(userName, numOfPlayers - 1);
+        List<HandView> handViews = pokerService.generateHandViews(hands, playerNames);
+        Game game = pokerService.generateGameDataForDatabase(hands, playerNames);
+        database.addGameToDatabase(game);
 
-        result.render("handViewList", handViewList);
-        result.render("lastNumOfGeneratedHands", numHandsToGenerate);
+        result.render("handViews", handViews);
+        result.render("lastNumOfGeneratedHands", numOfPlayers);
 
         return result;
     }
 
-    /*
-    public Result helloWorldJson() {
-        
-        SimplePojo simplePojo = new SimplePojo();
-        simplePojo.content = "Hello World! Hello Json!";
+    public Result history() {
+        Result result = Results.html();
 
-        return Results.json().render(simplePojo);
+        List<Game> games = database.getGames();
+        List<GameView> gameViewList = new ArrayList<>();
 
+        for (Game game : games) {
+            gameViewList.add(pokerService.generateGameView(game));
+        }
+
+        result.render("gameViews", gameViewList);
+
+        return result;
     }
-    
-    public static class SimplePojo {
 
-        public String content;
-        
-    }
-*/
     public void setPokerService(IPokerService pokerService) {
         this.pokerService = pokerService;
     }

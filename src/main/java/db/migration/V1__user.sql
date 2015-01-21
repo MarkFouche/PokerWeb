@@ -6,13 +6,13 @@ create table User (
 );
 
 create table Game (
-    id          INT8        auto_increment  not null,
+    gameId      INT8        auto_increment  not null,
     timestamp   TIMESTAMP,
     handId      INT8
 );
 
 create table PokerHand (
-    id          INT8        auto_increment  not null,
+    pokerHandID INT8        auto_increment  not null,
     hand        VARCHAR(255),
     playerName  VARCHAR(255),
     gameId      INT8

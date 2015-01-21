@@ -3,10 +3,14 @@ package services;
 import com.google.inject.Singleton;
 import models.cards.Deck;
 import models.cards.Hand;
+import models.database.Game;
+import models.database.PokerHand;
 import models.evaluators.HandEvaluator;
+import models.views.GameView;
+import models.views.HandView;
 
-import java.util.List;
-import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Mark on 2015-01-12.
@@ -43,5 +47,67 @@ public class PokerService implements IPokerService {
             return "One Pair";
         }
         return "High Card";
+    }
+
+    @Override
+    public List<String> generatePlayerNames(String userName, int numComputerNames) {
+        List<String> names = new ArrayList<>();
+
+        for(int i = 0; i <= numComputerNames; i++) {
+            String playerName = i == 0 ? userName : "Computer "+i;
+            names.add(playerName);
+        }
+
+        return names;
+    }
+
+    @Override
+    public List<HandView> generateHandViews(List<Hand> hands, List<String> playerNames) {
+        List<HandView> handViews = new ArrayList<>();
+
+        for (int i = 0; i < hands.size(); i++) {
+            HandView handView = new HandView(playerNames.get(i), evaluateHand(hands.get(i)), hands.get(i));
+            handViews.add(handView);
+        }
+
+        return handViews;
+    }
+
+    @Override
+    public GameView generateGameView(Game game) {
+        GameView gameView = new GameView();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss (dd MMM yyyy)");
+        gameView.timestamp = simpleDateFormat.format(game.getTimestamp().getTime());
+
+        gameView.handViews = new ArrayList<>();
+        for (PokerHand pokerHand: game.getPokerHands()) {
+            Hand hand = new Hand(pokerHand.getHand());
+            String playerName = pokerHand.getPlayerName();
+            String handStrength = evaluateHand(hand);
+            HandView handView = new HandView(playerName, handStrength, hand);
+            gameView.handViews.add(handView);
+        }
+
+        return gameView;
+    }
+
+    @Override
+    public Game generateGameDataForDatabase(List<Hand> hands, List<String> playerNames) {
+        Game game = new Game();
+        List<PokerHand> pokerHands = new ArrayList<>();
+
+        for (int i = 0; i < hands.size(); i++) {
+            PokerHand pokerHand = new PokerHand();
+            pokerHand.setHand(hands.get(i).toString());
+            pokerHand.setPlayerName(playerNames.get(i));
+            pokerHand.setGame(game);
+            pokerHands.add(pokerHand);
+        }
+
+        game.setPokerHands(pokerHands);
+        game.setTimestamp(Calendar.getInstance());
+
+        return game;
     }
 }

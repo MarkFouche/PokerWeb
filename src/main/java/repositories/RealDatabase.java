@@ -3,10 +3,12 @@ package repositories;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
+import models.database.Game;
 import models.database.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.List;
 
 
 /**
@@ -53,5 +55,19 @@ public class RealDatabase implements IDatabaseAdapter {
         q.setParameter("userHash", user.getHash());
 
         return q.getResultList().size() > 0;
+    }
+
+    @Transactional
+    public void addGameToDatabase(Game game) {
+        EntityManager entityManager = entityManagerProvider.get();
+        entityManager.persist(game);
+    }
+
+    public List<Game> getGames() {
+        EntityManager entityManager = entityManagerProvider.get();
+
+        Query q = entityManager.createQuery("SELECT g FROM Game g ORDER BY g.timestamp");
+
+        return q.getResultList();
     }
 }

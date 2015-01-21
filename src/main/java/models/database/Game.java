@@ -14,7 +14,7 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long gameId;
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar timestamp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
@@ -22,11 +22,11 @@ public class Game {
 
     public Game() {}
 
-    public long getId() {
-        return id;
+    public long getGameId() {
+        return gameId;
     }
-    public void setId(long id) {
-        this.id = id;
+    public void setGameId(long gameId) {
+        this.gameId = gameId;
     }
     public Calendar getTimestamp() {
         return timestamp;

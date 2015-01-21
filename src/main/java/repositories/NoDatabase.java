@@ -1,6 +1,8 @@
 package repositories;
 
+import models.database.Game;
 import models.database.User;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +47,15 @@ public class NoDatabase implements IDatabaseAdapter {
             }
         }
         return false;
+    }
+
+    @Override
+    public void addGameToDatabase(Game game) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<Game> getGames() {
+        throw new NotImplementedException();
     }
 }
