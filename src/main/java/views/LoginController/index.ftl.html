@@ -1,0 +1,19 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+
+    <div class="container" id="loginBox">
+        <form class="form-signin" action="/login" method="post">
+            <h2 class="form-signin-header">Login Information</h2>
+            <input type="text" name="userName" class="form-control" placeholder="Name" required autofocus>
+            <br>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+            <br>
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Log In</button>
+        </form>
+        <a href="/register"><p class="text-right">Register new account</p></a>
+    </div>
+    <div class="container">
+        <img class="img-responsive" src="/assets/images/cardsFront.png">
+    </div>
+
+</@layout.myLayout>

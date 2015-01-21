@@ -1,0 +1,29 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> 
+<@layout.myLayout "Home page">    
+
+    <div class="container" id="loginBox">
+        <form class="form-signin" action="/register" method="post">
+            <h2 class="form-signin-header">Registration Form</h2>
+            <input type="text" name="userName" class="form-control" placeholder="Name" required autofocus>
+            <br>
+            <input id="passwordInput" type="password" name="password" class="form-control" placeholder="Password" required>
+            <div id="passwordStrengthBar" class="progress">
+                <div id="passWeak" class="progress-bar progress-bar-danger" role="progressbar" style="width:33%">
+                    Weak
+                </div>
+                <div id="passMedium" class="progress-bar progress-bar-warning" role="progressbar" style="width:66%">
+                    Medium
+                </div>
+                <div id="passStrong" class="progress-bar progress-bar-success" role="progressbar" style="width:100%">
+                    Strong
+                </div>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block btn-success" type="submit">Register</button>
+        </form>
+        <a href="/"><p class="text-right">Back to login</p></a>
+    </div>
+    <div class="container">
+        <img class="img-responsive" src="/assets/images/cardsBack.png">
+    </div>
+
+</@layout.myLayout>
