@@ -56,11 +56,12 @@ public class ApplicationController {
         List<Hand> hands = pokerService.dealHands(numOfPlayers);
 
         List<String> playerNames = pokerService.generatePlayerNames(userName, numOfPlayers - 1);
-        List<HandView> handViews = pokerService.generateHandViews(hands, playerNames);
         Game game = pokerService.generateGameDataForDatabase(hands, playerNames);
-        database.addGameToDatabase(game);
 
-        result.render("handViews", handViews);
+        database.addGameToDatabase(game);
+        GameView gameView = pokerService.generateGameView(game);
+
+        result.render("gameView", gameView);
         result.render("lastNumOfGeneratedHands", numOfPlayers);
 
         return result;

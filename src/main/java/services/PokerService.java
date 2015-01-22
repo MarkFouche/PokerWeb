@@ -80,8 +80,11 @@ public class PokerService implements IPokerService {
         // set winners
         List<Hand> hands = game.getPokerHands().stream().map(h -> new Hand(h.getHand())).collect(Collectors.toList());
         List<Integer> winnerPositions = PokerWinnerEvaluator.getWinnerPositions(hands);
+        gameView.namesOfWinners = new ArrayList<>();
         for (Integer winner: winnerPositions) {
-            gameView.handViews.get(winner).isWinner = true;
+            HandView winnerHandView = gameView.handViews.get(winner);
+            winnerHandView.isWinner = true;
+            gameView.namesOfWinners.add(winnerHandView.playerName);
         }
 
         return gameView;

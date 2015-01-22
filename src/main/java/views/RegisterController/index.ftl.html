@@ -1,7 +1,8 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Home page">    
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<#include "../layout/headerGuest.ftl.html"/>
+<@layout.myLayout "Register">
 
-    <div class="container" id="loginBox">
+    <div class="container" id="inputBox">
         <form class="form-signin" action="/register" method="post">
             <h2 class="form-signin-header">Registration Form</h2>
             <input type="text" name="userName" class="form-control" placeholder="Name" required autofocus>

@@ -7,5 +7,6 @@ import java.util.List;
  */
 public class GameView {
     public String timestamp;
+    public List<String> namesOfWinners;
     public List<HandView> handViews;
 }

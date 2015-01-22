@@ -48,12 +48,12 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/hand").with(ApplicationController.class, "index");
         router.GET().route("/history").with(ApplicationController.class, "history");
         router.GET().route("/register").with(RegisterController.class, "index");
-        router.GET().route("/").with(LoginController.class, "index");
+        router.GET().route("/login").with(LoginController.class, "index");
 
         ///////////////////////////////////////////////////////////////////////
         // Catch all
         ///////////////////////////////////////////////////////////////////////
-        router.GET().route("/.*").with(LoginController.class, "index");
+        router.GET().route("/.*").with(ApplicationController.class, "index");
     }
 
 }

@@ -1,13 +1,7 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Home page">
-    <form action="/logout" method="get">
-        <button type="submit" class="btn btn-primary">Log out</button>
-    </form>
-    <form action="/hand" method="get">
-        <button type="submit" class="btn btn-primary">Generate Hands</button>
-    </form>
-
-
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<#include "../layout/headerUser.ftl.html"/>
+<@layout.myLayout "History">
+    <h2 align="center">History</h2>
     <#if gameViews??>
         <#assign x = 0>
         <div class="container">
@@ -18,19 +12,17 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse${x}">
-                                Time: ${game.timestamp}
+                                TIME: ${game.timestamp} &nbsp; &nbsp;
+                                WINNERS: <#list game.namesOfWinners as w>${w} &nbsp; </#list>
                             </a>
                         </h3>
                     </div>
-                    <div class="panel-collapse collapse in" id="collapse${x}">
-                        <div class="panel-body">
+                    <div class="panel-collapse collapse" id="collapse${x}">
+                        <div class="panel-body" id="gameHistoryDiv">
                         <#list game.handViews as hand>
-                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                <#if hand.isWinner>
-                                    <h4>WINNER! ${hand.playerName} (${hand.handStrength})</h4>
-                                <#else>
-                                    <h4>${hand.playerName} (${hand.handStrength})</h4>
-                                </#if>
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" <#if hand.isWinner>id="winnerDiv"</#if>>
+                                <h4><#if hand.isWinner>WINNER! &nbsp; </#if> ${hand.playerName}</h4>
+                                <h5>(${hand.handStrength})</h5>
                                 <#list hand.cardURLs as cardURL>
                                     <img src=${cardURL} alt=${cardURL} width="40"></img>
                                 </#list>

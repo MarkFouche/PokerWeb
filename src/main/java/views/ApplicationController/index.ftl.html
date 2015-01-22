@@ -1,15 +1,10 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Home page">
-    <form action="/logout" method="get">
-        <button type="submit" class="btn btn-primary">Log out</button>
-    </form>
-    <form action="/history" method="get">
-        <button type="submit" class="btn btn-primary">History</button>
-    </form>
-
-    <div class="container" id="loginBox">
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<#include "../layout/headerUser.ftl.html"/>
+<@layout.myLayout "Hand Generator">
+    <div class="container" id="inputBox">
         <form class="form-signin" action="/generate_hands" method="post">
-            <h2 class="form-signin-header">Number of hands</h2>
+            <h2 class="form-signin-header">Hand Generator</h2>
+            <h5 class="form-signin-header">Number of hands to generate:</h5>
             <#if lastNumOfGeneratedHands??>
                 <input type="number" name="numHands" class="form-control" min="4" max="6"
                        value=${lastNumOfGeneratedHands} required>
@@ -22,16 +17,13 @@
         </form>
     </div>
 
-    <#if handViews??>
-        <div class="row">
-            <#list handViews as hand>
-                <div class="col-xs-12 col-md-6">
-                    <#if hand.isWinner>
-                        <h3>WINNER! ${hand.playerName} (${hand.handStrength})</h3>
-                    <#else>
-                        <h3>${hand.playerName} (${hand.handStrength})</h3>
-                    </#if>
-                        <#list hand.cardURLs as cardURL>
+    <#if gameView??>
+        <div class="row" id="gameDiv">
+            <#list gameView.handViews as hand>
+                <div class="col-xs-12 col-md-6" <#if hand.isWinner>id="winnerDiv"</#if> >
+                    <h3><#if hand.isWinner>WINNER! &nbsp;</#if>${hand.playerName}</h3>
+                    <h4>(${hand.handStrength})</h4>
+                    <#list hand.cardURLs as cardURL>
                         <img src=${cardURL} alt=${cardURL}></img>
                     </#list>
                 </div>

@@ -12,12 +12,27 @@ a, a:hover {
     color: white;
 }
 
-#loginBox {
+#inputBox {
     max-width: 330px;
     padding: 15px;
     margin: 0 auto;
+    text-align: center;
 }
 
 .panel-body {
     background: grey;
+}
+
+#gameDiv div {
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+#gameHistoryDiv div {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+#winnerDiv {
+    background-color:rgba(0,0,0,.5);
 }
