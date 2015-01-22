@@ -21,9 +21,9 @@ public class HandTest {
     }
 
     @Test
-    public void shouldPrintHand() {
+    public void shouldPrintSortedHand() {
         // 1.Setup
-        Hand hand = new Hand("(3S, 5C, 8H, 9H, KD)");
+        Hand hand = new Hand("(5C, 3S, 8H, 9H, KD)");
 
         // 2. exec functionality
         String representation = hand.toString();

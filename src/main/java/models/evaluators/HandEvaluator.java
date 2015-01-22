@@ -5,40 +5,32 @@ import models.cards.Hand;
 import models.cards.Rank;
 import models.cards.Suit;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Created by Mark on 2015-01-09.
  */
-public final class HandEvaluator {
-    private static List<Integer> getListOfRankCounts(Hand hand) {
-        List<Card> cards = hand.getCards();
-        List<Rank> rankType = new ArrayList<Rank>();
-        List<Integer> rankCounts = new ArrayList<Integer>();
-        // Map <Rank, Integer>
-
-        Collections.sort(hand.getCards(), new Comparator<Card>() {
-            @Override
-            public int compare(Card card1, Card card2) {
-                return card1.getRank().compareTo(card2.getRank());
-            }
-        });
-
-        for (Card card:hand.getCards()) {
-            int arrayIndex = rankType.size() - 1;
-            if (rankType.isEmpty() || rankType.get(arrayIndex) != card.getRank()) {
-                rankType.add(card.getRank());
-                rankCounts.add(1);
-            } else {
-                rankCounts.set(arrayIndex, rankCounts.get(arrayIndex) + 1);
-            }
+public class HandEvaluator {
+    public static HandRank getHandRank(Hand hand) {
+        if (isStraightFlush(hand)) {
+            return HandRank.STRAIGHT_FLUSH;
+        } else if (isFourOfAKind(hand)) {
+            return HandRank.FOUR_OF_A_KIND;
+        } else if (isFullHouse(hand)) {
+            return HandRank.FULL_HOUSE;
+        } else if (isFlush(hand)) {
+            return HandRank.FLUSH;
+        } else if (isStraight(hand)) {
+            return HandRank.STRAIGHT;
+        } else if (isThreeOfAKind(hand)) {
+            return HandRank.THREE_OF_A_KIND;
+        } else if (isTwoPairs(hand)) {
+            return HandRank.TWO_PAIR;
+        } else if (isOnePair(hand)) {
+            return HandRank.ONE_PAIR;
         }
-
-        return rankCounts;
+        else return HandRank.HIGH_CARD;
     }
 
     public static boolean isStraightFlush (Hand hand) {
@@ -130,5 +122,25 @@ public final class HandEvaluator {
 
         return rankCounts.size() == 4 &&
                 (rankCounts.get(0) == 2 || rankCounts.get(1) == 2 || rankCounts.get(2) == 2 || rankCounts.get(3) == 2);
+    }
+
+    // Input: Hand of cards must be sorted
+    private static List<Integer> getListOfRankCounts(Hand hand) {
+        List<Card> cards = hand.getCards();
+        List<Rank> rankType = new ArrayList<Rank>();
+        List<Integer> rankCounts = new ArrayList<Integer>();
+        // Map <Rank, Integer>
+
+        for (Card card:cards) {
+            int arrayIndex = rankType.size() - 1;
+            if (rankType.isEmpty() || rankType.get(arrayIndex) != card.getRank()) {
+                rankType.add(card.getRank());
+                rankCounts.add(1);
+            } else {
+                rankCounts.set(arrayIndex, rankCounts.get(arrayIndex) + 1);
+            }
+        }
+
+        return rankCounts;
     }
 }

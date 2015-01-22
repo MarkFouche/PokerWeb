@@ -1,8 +1,9 @@
 package models.cards;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import models.evaluators.HandEvaluator;
+import models.evaluators.HandRank;
+
+import java.util.*;
 
 /**
  * Created by Mark on 2015-01-09.
@@ -34,6 +35,8 @@ public final class Hand {
             Card card = new Card(cardString);
             hand.add(card);
         }
+
+        sortCardsInAscendingOrder();
     }
 
     public Hand(Card ... cards) {
@@ -45,11 +48,22 @@ public final class Hand {
         for (Card card : cards) {
             hand.add(card);
         }
+
+        sortCardsInAscendingOrder();
+    }
+
+    private void sortCardsInAscendingOrder() {
+        Collections.sort(hand, new Comparator<Card>() {
+            @Override
+            public int compare(Card card1, Card card2) {
+                return card1.getRank().compareTo(card2.getRank());
+            }
+        });
     }
 
     @Override
     public String toString() {
-        // stringjoiner
+        // use stringjoiner instead
         String returnString = ("(");
         for (int i = 0; i < hand.size(); i++) {
             returnString += hand.get(i).toString();

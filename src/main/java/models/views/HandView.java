@@ -13,6 +13,7 @@ import java.util.List;
 public class HandView {
     public String playerName = "no name";
     public String handStrength = "no hand strength";
+    public boolean isWinner = false;
     public List<String> cardURLs = new ArrayList<>();
 
     public HandView (String playerName, String handStrength, Hand hand) {

@@ -28,6 +28,10 @@ public enum Rank {
         return symbol;
     }
 
+    public int getValue() {
+        return this.ordinal();
+    }
+
     public static Rank getRankFromSymbol(String rankSymbol) {
         for (Rank rank: values()) {
             if (rankSymbol.equals(rank.getSymbol())) {

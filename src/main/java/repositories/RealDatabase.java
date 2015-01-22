@@ -66,7 +66,7 @@ public class RealDatabase implements IDatabaseAdapter {
     public List<Game> getGames() {
         EntityManager entityManager = entityManagerProvider.get();
 
-        Query q = entityManager.createQuery("SELECT g FROM Game g ORDER BY g.timestamp");
+        Query q = entityManager.createQuery("SELECT g FROM Game g ORDER BY g.timestamp DESC");
 
         return q.getResultList();
     }

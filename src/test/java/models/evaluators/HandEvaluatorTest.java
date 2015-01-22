@@ -5,7 +5,23 @@ import org.junit.Assert;
 import org.junit.Test;
 import models.cards.Hand;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HandEvaluatorTest {
+
+    @Test
+    public void shouldGetCorrectHandRanks() {
+        Assert.assertTrue(HandEvaluator.getHandRank(new Hand("JD","10D","9D","QD","KD")) == HandRank.STRAIGHT_FLUSH);
+        Assert.assertTrue(HandEvaluator.getHandRank(new Hand("2D","2D","2H","2D","6D")) == HandRank.FOUR_OF_A_KIND);
+        Assert.assertTrue(HandEvaluator.getHandRank(new Hand("2D","2D","2H","6D","6D")) == HandRank.FULL_HOUSE);
+        Assert.assertTrue(HandEvaluator.getHandRank(new Hand("2D","3D","4D","9D","6D")) == HandRank.FLUSH);
+        Assert.assertTrue(HandEvaluator.getHandRank(new Hand("2D","3D","4D","5H","6D")) == HandRank.STRAIGHT);
+        Assert.assertTrue(HandEvaluator.getHandRank(new Hand("2D","2S","2H","QC","KD")) == HandRank.THREE_OF_A_KIND);
+        Assert.assertTrue(HandEvaluator.getHandRank(new Hand("2D","2S","3H","3C","5D")) == HandRank.TWO_PAIR);
+        Assert.assertTrue(HandEvaluator.getHandRank(new Hand("2D","2S","JH","QC","KD")) == HandRank.ONE_PAIR);
+        Assert.assertTrue(HandEvaluator.getHandRank(new Hand("AD","2S","JH","QC","KD")) == HandRank.HIGH_CARD);
+    }
 
     @Test
     public void shouldMatchStraightFlush() {

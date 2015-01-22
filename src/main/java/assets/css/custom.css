@@ -17,3 +17,7 @@ a, a:hover {
     padding: 15px;
     margin: 0 auto;
 }
+
+.panel-body {
+    background: grey;
+}

@@ -6,11 +6,14 @@ import models.cards.Hand;
 import models.database.Game;
 import models.database.PokerHand;
 import models.evaluators.HandEvaluator;
+import models.evaluators.PokerWinnerEvaluator;
 import models.views.GameView;
 import models.views.HandView;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by Mark on 2015-01-12.
@@ -29,24 +32,7 @@ public class PokerService implements IPokerService {
 
     @Override
     public String evaluateHand(Hand hand) {
-        if (HandEvaluator.isStraightFlush(hand)) {
-            return "Straight Flush";
-        } else if (HandEvaluator.isFourOfAKind(hand)) {
-            return "Four of a Kind";
-        } else if (HandEvaluator.isFullHouse(hand)) {
-            return "Full House";
-        } else if (HandEvaluator.isFlush(hand)) {
-            return "Flush";
-        } else if (HandEvaluator.isStraight(hand)) {
-            return "Straight";
-        } else if (HandEvaluator.isThreeOfAKind(hand)) {
-            return "Three Of A Kind";
-        } else if (HandEvaluator.isTwoPairs(hand)) {
-            return "Two Pairs";
-        } else if (HandEvaluator.isOnePair(hand)) {
-            return "One Pair";
-        }
-        return "High Card";
+        return HandEvaluator.getHandRank(hand).toString();
     }
 
     @Override
@@ -77,9 +63,11 @@ public class PokerService implements IPokerService {
     public GameView generateGameView(Game game) {
         GameView gameView = new GameView();
 
+        // set timestamp
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss (dd MMM yyyy)");
         gameView.timestamp = simpleDateFormat.format(game.getTimestamp().getTime());
 
+        // set handViews
         gameView.handViews = new ArrayList<>();
         for (PokerHand pokerHand: game.getPokerHands()) {
             Hand hand = new Hand(pokerHand.getHand());
@@ -87,6 +75,13 @@ public class PokerService implements IPokerService {
             String handStrength = evaluateHand(hand);
             HandView handView = new HandView(playerName, handStrength, hand);
             gameView.handViews.add(handView);
+        }
+
+        // set winners
+        List<Hand> hands = game.getPokerHands().stream().map(h -> new Hand(h.getHand())).collect(Collectors.toList());
+        List<Integer> winnerPositions = PokerWinnerEvaluator.getWinnerPositions(hands);
+        for (Integer winner: winnerPositions) {
+            gameView.handViews.get(winner).isWinner = true;
         }
 
         return gameView;
