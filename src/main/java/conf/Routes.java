@@ -17,6 +17,7 @@
 package conf;
 
 
+import controllers.GameController;
 import controllers.LoginController;
 import controllers.RegisterController;
 import ninja.AssetsController;
@@ -43,17 +44,21 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/register").with(RegisterController.class, "postRegister");
         router.POST().route("/login").with(LoginController.class, "postLogin");
         router.POST().route("/generate_hands").with(ApplicationController.class, "generateHands");
+        router.POST().route("/join_game").with(GameController.class, "join");
+        router.POST().route("/host_game").with(GameController.class, "host");
+        router.POST().route("/start_game").with(GameController.class, "startGame");
 
         router.GET().route("/logout").with(LoginController.class, "logout");
         router.GET().route("/hand").with(ApplicationController.class, "index");
         router.GET().route("/history").with(ApplicationController.class, "history");
         router.GET().route("/register").with(RegisterController.class, "index");
         router.GET().route("/login").with(LoginController.class, "index");
+        router.GET().route("/lobby").with(GameController.class, "lobby");
 
         ///////////////////////////////////////////////////////////////////////
         // Catch all
         ///////////////////////////////////////////////////////////////////////
-        router.GET().route("/.*").with(ApplicationController.class, "index");
+        router.GET().route("/.*").with(GameController.class, "lobby");
     }
 
 }

@@ -4,6 +4,7 @@ import models.database.Game;
 import models.database.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,11 +52,11 @@ public class NoDatabase implements IDatabaseAdapter {
 
     @Override
     public void addGameToDatabase(Game game) {
-        throw new NotImplementedException();
+        throw new RuntimeException("NoDatabase does not have addGameToDatabase function implemented.");
     }
 
     @Override
     public List<Game> getGames() {
-        throw new NotImplementedException();
+        throw new RuntimeException("NoDatabase does not have getGames function implemented.");
     }
 }

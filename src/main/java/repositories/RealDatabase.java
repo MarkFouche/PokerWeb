@@ -57,12 +57,14 @@ public class RealDatabase implements IDatabaseAdapter {
         return q.getResultList().size() > 0;
     }
 
+    @Override
     @Transactional
     public void addGameToDatabase(Game game) {
         EntityManager entityManager = entityManagerProvider.get();
         entityManager.persist(game);
     }
 
+    @Override
     public List<Game> getGames() {
         EntityManager entityManager = entityManagerProvider.get();
 

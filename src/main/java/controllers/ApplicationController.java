@@ -52,7 +52,7 @@ public class ApplicationController {
         Result result = Results.html().template("views/ApplicationController/index.ftl.html");
 
         String userName = context.getSession().get("username");
-        int numOfPlayers = Integer.parseInt(context.getParameter("numHands"));
+        int numOfPlayers = Math.max(Math.min(Integer.parseInt(context.getParameter("numHands")), 6), 4);
         List<Hand> hands = pokerService.dealHands(numOfPlayers);
 
         List<String> playerNames = pokerService.generatePlayerNames(userName, numOfPlayers - 1);

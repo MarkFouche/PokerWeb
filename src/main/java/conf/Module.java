@@ -20,10 +20,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import repositories.RealDatabase;
 import repositories.IDatabaseAdapter;
-import services.AuthService;
-import services.IAuthService;
-import services.IPokerService;
-import services.PokerService;
+import services.*;
 
 @Singleton
 public class Module extends AbstractModule {
@@ -35,6 +32,7 @@ public class Module extends AbstractModule {
         bind(IPokerService.class).to(PokerService.class);
         bind(IDatabaseAdapter.class).to(RealDatabase.class).in(Singleton.class);
         bind(IAuthService.class).to(AuthService.class).in(Singleton.class);
+        bind(IGameService.class).to(GameService.class).in(Singleton.class);
         
     }
 

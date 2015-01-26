@@ -91,7 +91,7 @@ public class PokerService implements IPokerService {
     }
 
     @Override
-    public Game generateGameDataForDatabase(List<Hand> hands, List<String> playerNames) {
+     public Game generateGameDataForDatabase(List<Hand> hands, List<String> playerNames) {
         Game game = new Game();
         List<PokerHand> pokerHands = new ArrayList<>();
 

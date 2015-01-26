@@ -1,0 +1,23 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Game">
+<#include "../layout/headerUser.ftl.html"/>
+    <h2>Game</h2>
+    <form action="/lobby" method="get" id="inputBox">
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Rage Quit</button>
+    </form>
+    <#if gameView??>
+        <div class="row" id="gameDiv">
+            <#list gameView.handViews as hand>
+                <div class="col-xs-12 col-md-6" <#if hand.isWinner>id="winnerDiv"</#if> >
+                    <h3 <#if hostname == username>id="currentPlayerName"</#if>>
+                        <#if hand.isWinner>WINNER! &nbsp;</#if>${hand.playerName}
+                    </h3>
+                    <h4>(${hand.handStrength})</h4>
+                    <#list hand.cardURLs as cardURL>
+                        <img src=${cardURL} alt=${cardURL}></img>
+                    </#list>
+                </div>
+            </#list>
+        </div>
+    </#if>
+</@layout.myLayout>

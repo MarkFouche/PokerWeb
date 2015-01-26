@@ -1,0 +1,22 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Single Game Lobby">
+<#include "../layout/headerUser.ftl.html"/>
+    <div class="container">
+        <h2>Single Game Lobby</h2>
+
+        <#if username == hostname>
+            <form action="/start_game" method="post" id="inputBox">
+                <button type="submit" class="btn btn-lg btn-primary btn-block" name="hostname" value=${hostname}>
+                    Start game
+                </button>
+            </form>
+        </#if>
+
+        <#if players??>
+            <#list players as player>
+
+                <h3 <#if player == username>id="currentPlayerName"</#if>> > ${player}</h3>
+            </#list>
+        </#if>
+    </div>
+</@layout.myLayout>
