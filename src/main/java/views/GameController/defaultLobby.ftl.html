@@ -3,13 +3,13 @@
 <#include "../layout/headerUser.ftl.html"/>
     <div class="container">
         <h2>Default Lobby</h2>
-        <form action="/host_game" method="post" id="inputBox">
+        <form action="/host_game" method="post" class="lobbyButton">
             <button type="submit" class="btn btn-lg btn-primary btn-block">Host new game</button>
         </form>
         <#if hostedGameNames??>
             <#list hostedGameNames as hostname>
                 <#if hostname == username>
-                    <form action="/join_game" method="post" id="inputBox">
+                    <form action="/join_game" method="post" class="lobbyButton">
                         <button type="submit" class="btn btn-lg btn-primary btn-block btn-info"
                                 value="${hostname}" name="hostname">
                             Back to your game lobby
@@ -21,7 +21,7 @@
         <#if spectatorGameNames??>
             <#list spectatorGameNames as hostname>
                 <#if hostname == username>
-                    <form action="/join_game" method="post" id="inputBox">
+                    <form action="/join_game" method="post" class="lobbyButton">
                         <button type="submit" class="btn btn-lg btn-primary btn-block btn-info"
                                 value="${hostname}" name="hostname">
                             Back to your game
@@ -30,11 +30,11 @@
                 </#if>
             </#list>
         </#if>
-
+        <br/>
         <#if hostedGameNames??>
             <#list hostedGameNames as hostname>
                 <#if hostname != username>
-                    <form action="/join_game" method="post" id="inputBox">
+                    <form action="/join_game" method="post" class="lobbyButton">
                         <button type="submit" class="btn btn-lg btn-primary btn-block btn-success"
                                 value="${hostname}" name="hostname">
                             Join ${hostname}
@@ -43,10 +43,11 @@
                 </#if>
             </#list>
         </#if>
+        <br/>
         <#if spectatorGameNames??>
             <#list spectatorGameNames as hostname>
                 <#if hostname != username>
-                    <form action="/join_game" method="post" id="inputBox">
+                    <form action="/join_game" method="post" class="lobbyButton">
                         <button type="submit" class="btn btn-lg btn-primary btn-block btn-warning"
                                 value="${hostname}" name="hostname">
                             Watch ${hostname}

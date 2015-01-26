@@ -2,9 +2,6 @@
 <@layout.myLayout "Game">
 <#include "../layout/headerUser.ftl.html"/>
     <h2>Game</h2>
-    <form action="/lobby" method="get" id="inputBox">
-        <button type="submit" class="btn btn-lg btn-primary btn-block">Rage Quit</button>
-    </form>
     <#if gameView??>
         <div class="row" id="gameDiv">
             <#list gameView.handViews as hand>
