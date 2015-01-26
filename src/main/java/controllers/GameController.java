@@ -9,12 +9,10 @@ import ninja.Results;
 import ninja.Router;
 import ninja.session.FlashScope;
 import repositories.IDatabaseAdapter;
-import services.GameService;
 import services.IGameService;
-import services.IPokerService;
 
+import java.util.Calendar;
 import java.util.List;
-import java.util.PrimitiveIterator;
 
 /**
  * Created by Mark on 2015-01-23.
@@ -31,6 +29,8 @@ public class GameController {
 
     @Inject
     private Router router;
+
+    private volatile Calendar lastUpdateTime = Calendar.getInstance();
 
     public Result lobby(Context context) {
         Result result = Results.html().template("views/GameController/defaultLobby.ftl.html");
@@ -50,12 +50,25 @@ public class GameController {
         return result;
     }
 
+    public Result updateLobby(Context context) {
+        Calendar startTime = Calendar.getInstance();
+        while (startTime.compareTo(lastUpdateTime) > 0) {
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                throw new RuntimeException("updateLobby method in GameController.java ca not sleep");
+            }
+        }
+        return lobby(context);
+    }
+
     public Result host(Context context) {
         String username = context.getSession().get("username");
         context.getSession().put("hostname", username);
 
         gameService.createGame(username);
         List<String> playersInGame = gameService.getUsersInGame(username);
+        lastUpdateTime = Calendar.getInstance();
 
         Result result = Results.html().template("views/GameController/singleGameLobby.ftl.html");
         result.render("hostname", username);
@@ -98,6 +111,7 @@ public class GameController {
 
         gameService.dealHands(hostName);
         gameService.addGameToDatabase(hostName);
+        lastUpdateTime = Calendar.getInstance();
 
         return viewGame(context);
     }

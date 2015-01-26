@@ -1,6 +1,6 @@
 "use strict";
 
-function progressStrengthChecker () {
+function passwordStrengthChecker () {
     var hideBars = function() {
         $("#passWeak").hide();
         $("#passMedium").hide();
@@ -38,4 +38,4 @@ function progressStrengthChecker () {
         }
     });
 }
-progressStrengthChecker();
+passwordStrengthChecker();
