@@ -33,8 +33,6 @@ public class GameController {
     private volatile Calendar lastUpdateTime = Calendar.getInstance();
 
     public Result lobby(Context context) {
-        Result result = Results.html().template("views/GameController/defaultLobby.ftl.html");
-
         String username = context.getSession().get("username");
         if (username == null) {
             username = "Guest(" + Math.round(Math.random() * 99999) + ")";
@@ -44,6 +42,7 @@ public class GameController {
         List<String> hostedGameNames = gameService.getUsersWithOpenGames();
         List<String> spectatorGames = gameService.getUsersWithSpectatorGames();
 
+        Result result = Results.html().template("views/GameController/defaultLobby.ftl.html");
         result.render("hostedGameNames", hostedGameNames);
         result.render("spectatorGameNames", spectatorGames);
         result.render("username", username);
@@ -52,11 +51,15 @@ public class GameController {
 
     public Result updateLobby(Context context) {
         Calendar startTime = Calendar.getInstance();
-        while (startTime.compareTo(lastUpdateTime) > 0) {
+        int timeout = 200;
+        int currentWaitTime = 0;
+        int maxWaitTime = 120000;
+        while (startTime.compareTo(lastUpdateTime) > 0 && currentWaitTime < maxWaitTime) {
+            currentWaitTime += timeout;
             try {
-                Thread.sleep(100);
+                Thread.sleep(timeout);
             } catch (Exception e) {
-                throw new RuntimeException("updateLobby method in GameController.java ca not sleep");
+                throw new RuntimeException("updateLobby method in GameController.java failed to sleep");
             }
         }
         return lobby(context);
@@ -77,7 +80,7 @@ public class GameController {
         return result;
     }
 
-    public Result join(Context context, FlashScope flashScope) {
+    public Result join(Context context) {
         String hostName = context.getParameter("hostname");
 
         if (hostName == null || !gameService.isUserHostingAGame(hostName)) {
@@ -90,15 +93,38 @@ public class GameController {
             return viewGame(context);
         }
 
-        String username = context.getSession().get("username");
-        gameService.addPlayerToGame(username, hostName);
+        String userName = context.getSession().get("username");
+        boolean isNewPlayer = !gameService.isPlayerInGame(userName, hostName);
+        gameService.addPlayerToGame(userName, hostName);
+        if (isNewPlayer) {
+            lastUpdateTime = Calendar.getInstance();
+        }
         List<String> playersInGame = gameService.getUsersInGame(hostName);
 
+        System.out.println(playersInGame);
         Result result = Results.html().template("views/GameController/singleGameLobby.ftl.html");
         result.render("hostname", hostName);
-        result.render("username", username);
+        result.render("username", userName);
         result.render("players", playersInGame);
         return result;
+    }
+
+    public Result updateSingleGameLobby(Context context) {
+        Calendar startTime = Calendar.getInstance();
+        int timeout = 200;
+        int currentWaitTime = 0;
+        int maxWaitTime = 120000;
+        while (startTime.compareTo(lastUpdateTime) > 0 && currentWaitTime < maxWaitTime) {
+            System.out.println("Sleep: " + currentWaitTime);
+            currentWaitTime += timeout;
+            try {
+                Thread.sleep(timeout);
+            } catch (Exception e) {
+                throw new RuntimeException("updateSingleGameLobby method in GameController.java failed to sleep");
+            }
+        }
+
+        return join(context);
     }
 
     public Result startGame(Context context, FlashScope flashScope) {

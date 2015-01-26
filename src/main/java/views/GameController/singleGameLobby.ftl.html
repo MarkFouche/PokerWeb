@@ -1,6 +1,7 @@
-<#import "../layout/defaultLayout.ftl.html" as layout>
+<#import "../layout/singleGameLobbyLayout.ftl.html" as layout>
 <@layout.myLayout "Single Game Lobby">
 <#include "../layout/headerUser.ftl.html"/>
+    <var hidden="true" class="hostNameVar">${hostname}</var>
     <div class="container">
         <h2>Single Game Lobby</h2>
 
@@ -11,11 +12,16 @@
                 </button>
             </form>
         </#if>
+        <#if username != hostname>
+            <h3>
+                Waiting for host to start game ...
+            </h3>
+        </#if>
 
         <#if players??>
             <#list players as player>
 
-                <h3 <#if player == username>id="currentPlayerName"</#if>> > ${player}</h3>
+                <h4 <#if player == username>id="currentPlayerName"</#if>> > ${player}</h4>
             </#list>
         </#if>
     </div>

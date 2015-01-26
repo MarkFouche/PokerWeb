@@ -55,6 +55,7 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/login").with(LoginController.class, "index");
         router.GET().route("/lobby").with(GameController.class, "lobby");
         router.GET().route("/lobby_update").with(GameController.class, "updateLobby");
+        router.GET().route("/single_lobby_update").with(GameController.class, "updateSingleGameLobby");
 
         ///////////////////////////////////////////////////////////////////////
         // Catch all
