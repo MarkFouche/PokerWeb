@@ -3,15 +3,14 @@
 <#include "../layout/headerUser.ftl.html"/>
     <div class="container">
         <h2>Default Lobby</h2>
-        <form action="/host_game" method="post" class="lobbyButton">
+        <form action="/${username}/host_game" method="get" class="lobbyButton">
             <button type="submit" class="btn btn-lg btn-primary btn-block">Host new game</button>
         </form>
         <#if hostedGameNames??>
             <#list hostedGameNames as hostname>
                 <#if hostname == username>
-                    <form action="/join_game" method="post" class="lobbyButton">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block btn-info"
-                                value="${hostname}" name="hostname">
+                    <form action="/${hostname}/join_game" method="get" class="lobbyButton">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block btn-info">
                             Back to your game lobby
                         </button>
                     </form>
@@ -21,9 +20,8 @@
         <#if spectatorGameNames??>
             <#list spectatorGameNames as hostname>
                 <#if hostname == username>
-                    <form action="/join_game" method="post" class="lobbyButton">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block btn-info"
-                                value="${hostname}" name="hostname">
+                    <form action="/${hostname}/join_game" method="get" class="lobbyButton">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block btn-info">
                             Back to your game
                         </button>
                     </form>
@@ -34,9 +32,8 @@
         <#if hostedGameNames??>
             <#list hostedGameNames as hostname>
                 <#if hostname != username>
-                    <form action="/join_game" method="post" class="lobbyButton">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block btn-success"
-                                value="${hostname}" name="hostname">
+                    <form action="/${hostname}/join_game" method="get" class="lobbyButton">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block btn-success">
                             Join ${hostname}
                         </button>
                     </form>
@@ -47,9 +44,8 @@
         <#if spectatorGameNames??>
             <#list spectatorGameNames as hostname>
                 <#if hostname != username>
-                    <form action="/join_game" method="post" class="lobbyButton">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block btn-warning"
-                                value="${hostname}" name="hostname">
+                    <form action="/${hostname}/join_game" method="get" class="lobbyButton">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block btn-warning">
                             Watch ${hostname}
                         </button>
                     </form>

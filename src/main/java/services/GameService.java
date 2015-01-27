@@ -25,7 +25,7 @@ public class GameService implements IGameService {
     @Inject
     private IDatabaseAdapter database;
 
-    private volatile List<Game> games = new ArrayList<>();
+    private List<Game> games = new ArrayList<>();
 
     private Game getHostedGame(String hostName) {
         Game game = games.stream().filter(g -> g.getHostName().equals(hostName)).findFirst().get();
