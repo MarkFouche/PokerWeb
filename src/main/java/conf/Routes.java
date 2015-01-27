@@ -60,7 +60,7 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         // Catch all
         ///////////////////////////////////////////////////////////////////////
-        router.GET().route("/.*").with(GameController.class, "getLobby");
+        router.GET().route("/.*").with(LoginController.class, "index");
     }
 
 }
