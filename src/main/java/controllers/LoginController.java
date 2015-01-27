@@ -33,7 +33,7 @@ public class LoginController {
 
         if (authService.isValidUser(loginName,password)) {
             context.getSession().put("username", loginName);
-            return Results.redirect(router.getReverseRoute(ApplicationController.class, "index"));
+            return Results.redirect(router.getReverseRoute(GameController.class, "getLobby"));
         } else {
             flashScope.error("Invalid login name or password.");
             return Results.redirect(router.getReverseRoute(LoginController.class, "index"));

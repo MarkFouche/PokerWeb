@@ -3,10 +3,7 @@ package controllers;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import models.views.GameView;
-import ninja.Context;
-import ninja.Result;
-import ninja.Results;
-import ninja.Router;
+import ninja.*;
 import ninja.params.PathParam;
 import ninja.session.FlashScope;
 import repositories.IDatabaseAdapter;
@@ -19,7 +16,7 @@ import java.util.List;
  * Created by Mark on 2015-01-23.
  */
 @Singleton
-//@FilterWith(SecureFilter.class)
+@FilterWith(SecureFilter.class)
 public class GameController {
     @Inject
     private IGameService gameService;
@@ -61,10 +58,6 @@ public class GameController {
 
     public Result getLobby(Context context) {
         String username = context.getSession().get("username");
-        if (username == null) {
-            username = "Guest(" + Math.round(Math.random() * 99999) + ")";
-            context.getSession().put("username", username);
-        }
 
         List<String> hostedGameNames = gameService.getUsersWithOpenGames();
         List<String> spectatorGames = gameService.getUsersWithSpectatorGames();
